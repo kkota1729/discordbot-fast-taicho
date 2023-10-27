@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  {% extends "layout.html" %}
+  {% block content %}
+  <body bgcolor="#252525" text="#ffffff">
+    <br/>
+    {% if not guild.icon %}
+        <a href="/guild/{{guild.id}}">
+            <img src="/static/img/discord-icon.jpg" />
+        </a>
+    {% else %}
+        <a href="/guild/{{guild.id}}">
+            <img src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.png"  />
+        </a>
+    {% endif %}
+    <a href="/guild/{{guild.id}}">
+        <li>{{ guild.name }}</li>
+    </a>
+    <br/>
+    {% if permission.administrator %}
+        管理者です。<br/>
+        <a href="/guild/{{guild_id}}/admin" class="btn btn-primary">管理者設定</a>
+    {% endif %}
+    <h4>設定する項目一覧</h4>
+    
+    <a href="/guild/{{guild_id}}/line-post" class="btn btn-primary">LINEへの送信設定</a>
+    <a href="/guild/{{guild_id}}/line-set" class="btn btn-primary">LINEBOTおよびグループ設定</a>
+    <a href="/guild/{{guild_id}}/vc-signal" class="btn btn-primary">ボイスチャンネルの通知設定</a>
+    <a href="/guild/{{guild_id}}/webhook" class="btn btn-primary">webhookの送信設定</a>
+    <br/>
+    <br/>
+
+    <h4>未消化タスク一覧</h4>
+    <table>
+        <thead>
+            <tr>
+                <th style="border: 1px solid #FFF;" colspan="1">タスク番号</th>
+                <th style="border: 1px solid #FFF;" colspan="1">タスク名</th>
+                <th style="border: 1px solid #FFF;" colspan="1">期日</th>
+                <th style="border: 1px solid #FFF;" colspan="1">アラートレベル</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td style="border: 1px solid #FFF;">{{task.task_number}}</td>
+                <td style="border: 1px solid #FFF;">{{task.task_title}}</td>
+                <td style="border: 1px solid #FFF;">{{task.time_limit}}</td>
+                <td style="border: 1px solid #FFF;">{{task.alert_level}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <br/>
+    サーバーウィジェットが有効の場合、サーバーの状況が表示されます。<br/>
+    <iframe title="discord_5second" style="height: 350px;" src="https://discord.com/widget?id={{guild_id}}&theme=dark/" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+  </body>
+  {% endblock %}
+</html>

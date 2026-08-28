@@ -1,4 +1,4 @@
-name: Temporary Minkou Scrape
+name: Temporary Minkou Deviation Scrape
 on:
   push:
     branches:
@@ -19,17 +19,17 @@ jobs:
           python-version: '3.12'
       - name: Install dependencies
         run: pip install requests beautifulsoup4 lxml
-      - name: Scrape Minkou public pages
-        run: python scripts/minkou_scrape.py
+      - name: Scrape Minkou deviation pages
+        run: python scripts/minkou_deviation_scrape.py
       - name: Show manifest
         if: always()
         run: |
-          cat minkou_output/manifest.json || true
-          cat minkou_output/errors.json || true
+          cat minkou_deviation_output/manifest.json || true
+          cat minkou_deviation_output/errors.json || true
       - name: Upload results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: minkou-all-data
-          path: minkou_output/
+          name: minkou-deviation-data
+          path: minkou_deviation_output/
           retention-days: 1
